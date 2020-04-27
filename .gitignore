@@ -21,3 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# bit.dev
+/components/login/dist
+/components/login/node_modules
+bit.json
+.bitmap
