@@ -4,6 +4,7 @@ import { LoginPage } from './LoginPage';
 
 /**
  * Login Component: Can be reused across applications.
+ *
  * It requires 2 props:
  * 1. loginSuccessCallback: For handling
  *    the 'response' object upon successful login.

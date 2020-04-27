@@ -23,7 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # bit.dev
-/components/login/dist
-/components/login/node_modules
+/src/components/login/dist
+/src/components/login/node_modules
 bit.json
 .bitmap

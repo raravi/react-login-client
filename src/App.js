@@ -1,35 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom";
-import Login from '@bit/raravi.react.login';
+import { apiDetails } from './config/apiDetails';
+// import Login from '@bit/raravi.react.login';
+import Login from './components/login';
 import './App.css';
 
 function App() {
-  const apiDetails = {
-    url: 'http://localhost:8000',
-    endpoints: {
-      login: '/api/users/login',
-      register: '/api/users/register',
-      forgotPassword: '/api/users/forgotpassword',
-      resetPassword: '/api/users/resetpassword'
-    }
-  };
+  let [ userAuthenticated, setUserAuthenticated ] = useState(false);
 
   function onSuccessfulLogin(response) {
     console.log("Response: ", response);
+    setUserAuthenticated(true);
   }
 
   return (
     <Switch>
       <Route path="/app">
-        <p>App</p>
+        { userAuthenticated
+          ? <p>App</p>
+          : <Redirect to="/" />
+        }
       </Route>
       <Route path="/">
-        <Login
-          loginSuccessCallback={onSuccessfulLogin}
-          apiDetails={apiDetails} />
+        { userAuthenticated
+          ? <Redirect to="/app" />
+          : <Login
+              loginSuccessCallback={onSuccessfulLogin}
+              apiDetails={apiDetails} />
+        }
       </Route>
     </Switch>
   );
