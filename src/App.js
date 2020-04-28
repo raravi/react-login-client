@@ -5,7 +5,6 @@ import {
   Redirect
 } from "react-router-dom";
 import { apiDetails } from './config/apiDetails';
-// import Login from '@bit/raravi.react.login';
 import Login from './components/login';
 import './App.css';
 
