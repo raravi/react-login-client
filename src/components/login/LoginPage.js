@@ -6,6 +6,7 @@ import {
 import axios from 'axios';
 import { LoginSection } from './LoginSection';
 import { RegisterSection } from './RegisterSection';
+import { Validate } from './Validate';
 import { ForgotPassword } from './ForgotPassword';
 import { ResetPassword } from './ResetPassword';
 import { useLoginContext } from './context';
@@ -19,6 +20,7 @@ export const LoginPage = (props) => {
   let {
     loginDispatch,
     registerDispatch,
+    validateDispatch,
     forgotPasswordDispatch,
     resetPasswordDispatch } = useLoginContext();
 
@@ -97,6 +99,42 @@ export const LoginPage = (props) => {
       } else {
         registerDispatch({ type: 'username-error', text: "Unable to reach server..." });
       }
+    });
+  }
+
+  /**
+   * Send the Validation Code to the backend for processing.
+   */
+  function validateNewUser() {
+    const validateCode = document.querySelector('.validate__code');
+
+    validateDispatch({ type: 'reset-all' });
+
+    fetch(apiDetails.url + apiDetails.endpoints.validate, {
+      method: "post",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        validatecode: validateCode.value
+      })
+    })
+    .then(response => response.json())
+    .then(text => {
+      if (text.validatecode) {
+        validateDispatch({ type: 'validate-code-error', text: text.validatecode });
+      }
+      if (text.success) {
+        validateDispatch({ type: 'success', text: text.success });
+        validateCode.value = '';
+      }
+    })
+    .catch(e => {
+      validateDispatch({
+        type: 'validate-code-error',
+        text: "Unable to reach server..."
+      });
     });
   }
 
@@ -191,6 +229,9 @@ export const LoginPage = (props) => {
         </Route>
         <Route path="/register">
           <RegisterSection registerCallback={registerNewUser} />
+        </Route>
+        <Route path="/validate">
+          <Validate validateCallback={validateNewUser} />
         </Route>
         <Route path="/forgot-password">
           <ForgotPassword forgotPasswordCallback={forgotPasswordOfUser} />

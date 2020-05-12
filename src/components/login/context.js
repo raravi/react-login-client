@@ -2,6 +2,7 @@ import React, { createContext, useContext, useReducer } from 'react';
 import {
   loginReducer,
   registerReducer,
+  validateReducer,
   forgotPasswordReducer,
   resetPasswordReducer
 } from './reducers';
@@ -18,6 +19,10 @@ export const LoginContextProvider = ({ children }) => {
     emailError: '',
     passwordError: '',
     password2Error: '',
+    success: '',
+  });
+  const [validateState, validateDispatch] = useReducer(validateReducer, {
+    validateCodeError: '',
     success: '',
   });
   const [forgotPasswordState, forgotPasswordDispatch] = useReducer(forgotPasswordReducer, {
@@ -37,6 +42,7 @@ export const LoginContextProvider = ({ children }) => {
       {
         loginState, loginDispatch,
         registerState, registerDispatch,
+        validateState, validateDispatch,
         forgotPasswordState, forgotPasswordDispatch,
         resetPasswordState, resetPasswordDispatch
       }

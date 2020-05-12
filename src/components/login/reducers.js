@@ -47,6 +47,23 @@ const registerReducer = (state, action) => {
   }
 };
 
+const validateReducer = (state, action) => {
+  switch (action.type) {
+    case 'validate-code-error':
+      return { ...state, validateCodeError: action.text };
+    case 'success':
+      return { ...state, success: action.text };
+    case 'reset-all':
+      return {
+        ...state,
+        validateCodeError: '',
+        success: ''
+      };
+    default:
+      throw new Error('Unexpected action');
+  }
+};
+
 const forgotPasswordReducer = (state, action) => {
   switch (action.type) {
     case 'email-error':
@@ -90,4 +107,10 @@ const resetPasswordReducer = (state, action) => {
   }
 };
 
-export { loginReducer, registerReducer, forgotPasswordReducer, resetPasswordReducer };
+export {
+  loginReducer,
+  registerReducer,
+  validateReducer,
+  forgotPasswordReducer,
+  resetPasswordReducer
+};
