@@ -10,6 +10,7 @@ import { apiDetails } from './config/apiDetails';
 import {
   loginReducer,
   registerReducer,
+  validateReducer,
   forgotPasswordReducer,
   resetPasswordReducer } from './components/login/reducers';
 
@@ -60,6 +61,21 @@ let loginData = {
       passwordError: "Password must be at least 6 characters",
       password2Error: "Passwords must match",
       errorResponse: null
+    },
+    validateData = {
+      url: apiDetails.url + apiDetails.endpoints.validate,
+      options: {"validatecode": ""},
+      successResponse: {
+        data: {
+          success: "Email has been successfully validated!"
+        }
+      },
+      validationResponse: {
+        data: {
+          validatecode: "Validation code is required"
+        }
+      },
+      errorResponse: { error: "Error!" }
     },
     forgotPasswordData = {
       url: apiDetails.url + apiDetails.endpoints.forgotPassword,
@@ -210,6 +226,10 @@ describe('Login Page', () => {
           password2Error: '',
           success: '',
         });
+        const [validateState, validateDispatch] = useReducer(validateReducer, {
+          validateCodeError: '',
+          success: '',
+        });
         const [forgotPasswordState, forgotPasswordDispatch] = useReducer(forgotPasswordReducer, {
           emailError: '',
           emailSuccess: '',
@@ -234,6 +254,12 @@ describe('Login Page', () => {
               onClick={() => registerDispatch({ type: 'dummy', text: "dummy" })}
             >
               Register
+            </p>
+            <p
+              data-testid="mock-validate"
+              onClick={() => validateDispatch({ type: 'dummy', text: "dummy" })}
+            >
+              Validate
             </p>
             <p
               data-testid="mock-forgot-password"
@@ -266,6 +292,16 @@ describe('Login Page', () => {
 
       try {
         fireEvent.click(getByTestId('mock-register'));
+      } catch (e) {
+        expect(e.toString()).toBe('Error: Unexpected action');
+      }
+    });
+
+    it('Validate Reducer', () => {
+      const { getByTestId } = render(<MockLogin />);
+
+      try {
+        fireEvent.click(getByTestId('mock-validate'));
       } catch (e) {
         expect(e.toString()).toBe('Error: Unexpected action');
       }
@@ -387,6 +423,57 @@ describe('Register Page', () => {
     expect(getByTestId('login-button')).toBeInTheDocument();
   });
 
+});
+
+/**
+ * VALIDATE page
+ */
+describe('Validate Page', () => {
+  it('Load VALIDATE', () => {
+    // const history = createMemoryHistory();
+    // const route = '/some-route';
+    const { getByTestId, findByTestId } = renderWithRouter(<App />, {
+      route: '/validate',
+    });
+
+    expect(getByTestId('validate-button')).toBeInTheDocument();
+  });
+
+  it('Validation is successful', async () => {
+    fetch = jest.fn(() => Promise.resolve({ json: () => validateData.successResponse.data }));
+    const { getByTestId, findByText } = renderWithRouter(<App />, {
+      route: '/validate',
+    });
+
+    fireEvent.click(getByTestId('validate-button'));
+
+    const validateSuccessElement = await findByText(validateData.successResponse.data.success);
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('Validate error', async () => {
+    fetch = jest.fn(() => Promise.reject(validateData.errorResponse));
+    const { getByTestId, findByText } = renderWithRouter(<App />, {
+      route: '/validate',
+    });
+
+    fireEvent.click(getByTestId('validate-button'));
+
+    const validateErrorElement = await findByText("Unable to reach server...");
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('Validate error: validation errors', async () => {
+    fetch = jest.fn(() => Promise.resolve({ json: () => validateData.validationResponse.data }));
+    const { getByTestId, findByText } = renderWithRouter(<App />, {
+      route: '/validate',
+    });
+
+    fireEvent.click(getByTestId('validate-button'));
+
+    const validateErrorElement = await findByText(validateData.validationResponse.data.validatecode);
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
 });
 
 /**
