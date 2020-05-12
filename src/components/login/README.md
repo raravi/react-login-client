@@ -10,7 +10,11 @@ It performs the following functions:
 
 * **Registration of New User**: This component submits the username / email / password of the user to the server. If the details are valid, the server registers the new user. In case of errors, prints them out to the webpage.
 
+* **Email Validation of New User**: This component submits the validation code of the user to the server. If the details are valid, the server validates the new user. In case of errors, prints them out to the webpage.
+
 * **Forgot Password**: If the user has forgotten their password, they can reset it here. An email will be sent with reset token and link to reset the password.
+
+* **Rest Password**: This component submits the reset code / new password of the user to the server. If the details are valid, the server approves the new password. In case of errors, prints them out to the webpage.
 
 ## Requirements for Usage
 
@@ -23,11 +27,15 @@ It requires 2 `props`:
 
 ```js
     {
-      url: 'http://www.url.com',
+      url: 'http://www.myurl.com',
       endpoints: {
         login: '/login',
         register: '/register',
-        forgotPassword: '/forgotpassword'
+        validate: '/validate',
+        forgotPassword: '/forgotpassword',
+        resetPassword: '/resetpassword'
       }
     }
 ```
+
+This component also requires certain classes in CSS to work. Please see [App.css](https://github.com/raravi/react-login-client/blob/master/src/App.css) in the [sample git repo](https://github.com/raravi/react-login-client) for more information regarding this!
