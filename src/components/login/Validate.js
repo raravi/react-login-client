@@ -2,8 +2,8 @@ import React from 'react';
 import { useLoginContext } from './context';
 
 /**
- * ForgotPassword component
- * contains the Forgot Password 'page'.
+ * Validate component
+ * contains the Validate Email 'page'.
  */
 export const Validate = (props) => {
   let { validateState } = useLoginContext();

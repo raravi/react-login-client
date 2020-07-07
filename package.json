@@ -1,7 +1,7 @@
 {
   "name": "react-login-client",
   "description": "Login Component hosted at bit.dev",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "repository": "https://github.com/raravi/react-login-client.git",
   "private": true,
   "dependencies": {
