@@ -52,6 +52,6 @@
     "packageManager": "npm"
   },
   "devDependencies": {
-    "codecov": "^3.6.5"
+    "codecov": "^3.7.1"
   }
 }
