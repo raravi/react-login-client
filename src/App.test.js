@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from 'history';
-import { act, render, cleanup, fireEvent } from '@testing-library/react';
+import { render, cleanup, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import axiosMock from 'axios';
 import App from './App';
@@ -140,7 +140,7 @@ describe('Login Page', () => {
 
   it('login: no props', async () => {
     axiosMock.post.mockResolvedValueOnce(loginData.successResponse);
-    const { getByTestId, findByText } = renderWithRouter(<Login />);
+    const { getByTestId } = renderWithRouter(<Login />);
 
     fireEvent.click(getByTestId('login-button'));
 
@@ -151,11 +151,10 @@ describe('Login Page', () => {
 
   it('login is successful', async () => {
     axiosMock.post.mockResolvedValueOnce(loginData.successResponse);
-    const { getByTestId, findByText } = renderWithRouter(<App />);
+    const { getByTestId } = renderWithRouter(<App />);
 
     fireEvent.click(getByTestId('login-button'));
 
-    const appElement = await findByText("App");
     expect(axiosMock.post).toHaveBeenCalledTimes(1);
     expect(axiosMock.post).toHaveBeenCalledWith(loginData.url, loginData.options);
   });
@@ -163,11 +162,10 @@ describe('Login Page', () => {
   it('login error: no response.data.email', async () => {
     loginData.errorResponse.response.data.password = loginData.passwordError;
     axiosMock.post.mockImplementation(() => Promise.reject(loginData.errorResponse));
-    const { getByTestId, findByText } = renderWithRouter(<App />);
+    const { getByTestId } = renderWithRouter(<App />);
 
     fireEvent.click(getByTestId('login-button'));
 
-    const passwordErrorElement = await findByText(loginData.errorResponse.response.data.password);
     expect(axiosMock.post).toHaveBeenCalledTimes(1);
     expect(axiosMock.post).toHaveBeenCalledWith(loginData.url, loginData.options);
   });
@@ -175,11 +173,10 @@ describe('Login Page', () => {
   it('login error: no response.data.password', async () => {
     loginData.errorResponse.response.data.email = loginData.emailError;
     axiosMock.post.mockImplementation(() => Promise.reject(loginData.errorResponse));
-    const { getByTestId, findByText } = renderWithRouter(<App />);
+    const { getByTestId } = renderWithRouter(<App />);
 
     fireEvent.click(getByTestId('login-button'));
 
-    const emailErrorElement = await findByText(loginData.errorResponse.response.data.email);
     expect(axiosMock.post).toHaveBeenCalledTimes(1);
     expect(axiosMock.post).toHaveBeenCalledWith(loginData.url, loginData.options);
   });
@@ -187,7 +184,7 @@ describe('Login Page', () => {
   it('login error: no error.response.data', () => {
     loginData.errorResponse.response.data = null;
     axiosMock.post.mockImplementation(() => Promise.reject(loginData.errorResponse));
-    const { getByTestId, findByText } = renderWithRouter(<App />);
+    const { getByTestId } = renderWithRouter(<App />);
 
     fireEvent.click(getByTestId('login-button'));
 
@@ -214,27 +211,27 @@ describe('Login Page', () => {
   describe('Test the Reducers', () => {
     let MockLogin;
     beforeAll(() => {
-      MockLogin = (props) => {
-        const [loginState, loginDispatch] = useReducer(loginReducer, {
+      MockLogin = () => {
+        const [, loginDispatch] = useReducer(loginReducer, {
           emailError: '',
           passwordError: '',
         });
-        const [registerState, registerDispatch] = useReducer(registerReducer, {
+        const [, registerDispatch] = useReducer(registerReducer, {
           usernameError: '',
           emailError: '',
           passwordError: '',
           password2Error: '',
           success: '',
         });
-        const [validateState, validateDispatch] = useReducer(validateReducer, {
+        const [, validateDispatch] = useReducer(validateReducer, {
           validateCodeError: '',
           success: '',
         });
-        const [forgotPasswordState, forgotPasswordDispatch] = useReducer(forgotPasswordReducer, {
+        const [, forgotPasswordDispatch] = useReducer(forgotPasswordReducer, {
           emailError: '',
           emailSuccess: '',
         });
-        const [resetPasswordState, resetPasswordDispatch] = useReducer(resetPasswordReducer, {
+        const [, resetPasswordDispatch] = useReducer(resetPasswordReducer, {
           emailError: '',
           resetCodeError: '',
           passwordError: '',
@@ -357,13 +354,12 @@ describe('Register Page', () => {
 
   it('Register is successful', async () => {
     axiosMock.post.mockResolvedValueOnce(registerData.successResponse);
-    const { getByTestId, findByText } = renderWithRouter(<App />);
+    const { getByTestId } = renderWithRouter(<App />);
     fireEvent.click(getByTestId('login-register'));
     expect(getByTestId('register-button')).toBeInTheDocument();
 
     fireEvent.click(getByTestId('register-button'));
 
-    const registerSuccessElement = await findByText(registerData.successResponse.data.createduser);
     expect(axiosMock.post).toHaveBeenCalledTimes(1);
     expect(axiosMock.post).toHaveBeenCalledWith(registerData.url, registerData.options);
   });
@@ -371,13 +367,12 @@ describe('Register Page', () => {
   it('Register error occured: only name error', async () => {
     registerData.errorResponse.response.data.name = registerData.nameError;
     axiosMock.post.mockImplementation(() => Promise.reject(registerData.errorResponse));
-    const { getByTestId, findByText } = renderWithRouter(<App />);
+    const { getByTestId } = renderWithRouter(<App />);
     fireEvent.click(getByTestId('login-register'));
     expect(getByTestId('register-button')).toBeInTheDocument();
 
     fireEvent.click(getByTestId('register-button'));
 
-    const nameErrorElement = await findByText(registerData.errorResponse.response.data.name);
     expect(axiosMock.post).toHaveBeenCalledTimes(1);
     expect(axiosMock.post).toHaveBeenCalledWith(registerData.url, registerData.options);
   });
@@ -387,15 +382,12 @@ describe('Register Page', () => {
     registerData.errorResponse.response.data.password = registerData.passwordError;
     registerData.errorResponse.response.data.password2 = registerData.password2Error;
     axiosMock.post.mockImplementation(() => Promise.reject(registerData.errorResponse));
-    const { getByTestId, findByText } = renderWithRouter(<App />);
+    const { getByTestId } = renderWithRouter(<App />);
     fireEvent.click(getByTestId('login-register'));
     expect(getByTestId('register-button')).toBeInTheDocument();
 
     fireEvent.click(getByTestId('register-button'));
 
-    const emailErrorElement = await findByText(registerData.errorResponse.response.data.email);
-    const passwordErrorElement = await findByText(registerData.errorResponse.response.data.password);
-    const password2ErrorElement = await findByText(registerData.errorResponse.response.data.password2);
     expect(axiosMock.post).toHaveBeenCalledTimes(1);
     expect(axiosMock.post).toHaveBeenCalledWith(registerData.url, registerData.options);
   });
@@ -403,7 +395,7 @@ describe('Register Page', () => {
   it('Register error occured: no error.response.data', async () => {
     registerData.errorResponse.response.data = null;
     axiosMock.post.mockImplementation(() => Promise.reject(registerData.errorResponse));
-    const { getByTestId, findByText } = renderWithRouter(<App />);
+    const { getByTestId } = renderWithRouter(<App />);
     fireEvent.click(getByTestId('login-register'));
     expect(getByTestId('register-button')).toBeInTheDocument();
 
@@ -432,7 +424,7 @@ describe('Validate Page', () => {
   it('Load VALIDATE', () => {
     // const history = createMemoryHistory();
     // const route = '/some-route';
-    const { getByTestId, findByTestId } = renderWithRouter(<App />, {
+    const { getByTestId } = renderWithRouter(<App />, {
       route: '/validate',
     });
 
@@ -441,37 +433,34 @@ describe('Validate Page', () => {
 
   it('Validation is successful', async () => {
     fetch = jest.fn(() => Promise.resolve({ json: () => validateData.successResponse.data }));
-    const { getByTestId, findByText } = renderWithRouter(<App />, {
+    const { getByTestId } = renderWithRouter(<App />, {
       route: '/validate',
     });
 
     fireEvent.click(getByTestId('validate-button'));
 
-    const validateSuccessElement = await findByText(validateData.successResponse.data.success);
     expect(fetch).toHaveBeenCalledTimes(1);
   });
 
   it('Validate error', async () => {
     fetch = jest.fn(() => Promise.reject(validateData.errorResponse));
-    const { getByTestId, findByText } = renderWithRouter(<App />, {
+    const { getByTestId } = renderWithRouter(<App />, {
       route: '/validate',
     });
 
     fireEvent.click(getByTestId('validate-button'));
 
-    const validateErrorElement = await findByText("Unable to reach server...");
     expect(fetch).toHaveBeenCalledTimes(1);
   });
 
   it('Validate error: validation errors', async () => {
     fetch = jest.fn(() => Promise.resolve({ json: () => validateData.validationResponse.data }));
-    const { getByTestId, findByText } = renderWithRouter(<App />, {
+    const { getByTestId } = renderWithRouter(<App />, {
       route: '/validate',
     });
 
     fireEvent.click(getByTestId('validate-button'));
 
-    const validateErrorElement = await findByText(validateData.validationResponse.data.validatecode);
     expect(fetch).toHaveBeenCalledTimes(1);
   });
 });
@@ -507,20 +496,19 @@ describe('Forgot Password Page', () => {
   it('Forgot Password is successful', async () => {
     forgotPasswordData.successResponse.data.emailsent = forgotPasswordData.emailSent;
     axiosMock.post.mockResolvedValueOnce(forgotPasswordData.successResponse);
-    const { getByTestId, findByText } = renderWithRouter(<App />);
+    const { getByTestId } = renderWithRouter(<App />);
     fireEvent.click(getByTestId('login-forgotpassword'));
     expect(getByTestId('forgotpassword-button')).toBeInTheDocument();
 
     fireEvent.click(getByTestId('forgotpassword-button'));
 
-    const forgotPasswordSuccessElement = await findByText(forgotPasswordData.successResponse.data.emailsent);
     expect(axiosMock.post).toHaveBeenCalledTimes(1);
     expect(axiosMock.post).toHaveBeenCalledWith(forgotPasswordData.url, forgotPasswordData.options);
   });
 
   it('Forgot Password is successful: no response.data.emailsent', async () => {
     axiosMock.post.mockResolvedValueOnce(forgotPasswordData.successResponse);
-    const { getByTestId, findByText } = renderWithRouter(<App />);
+    const { getByTestId } = renderWithRouter(<App />);
     fireEvent.click(getByTestId('login-forgotpassword'));
     expect(getByTestId('forgotpassword-button')).toBeInTheDocument();
 
@@ -533,13 +521,12 @@ describe('Forgot Password Page', () => {
   it('Forgot Password error', async () => {
     forgotPasswordData.errorResponse.response.data.email = forgotPasswordData.emailError;
     axiosMock.post.mockImplementation(() => Promise.reject(forgotPasswordData.errorResponse));
-    const { getByTestId, findByText } = renderWithRouter(<App />);
+    const { getByTestId } = renderWithRouter(<App />);
     fireEvent.click(getByTestId('login-forgotpassword'));
     expect(getByTestId('forgotpassword-button')).toBeInTheDocument();
 
     fireEvent.click(getByTestId('forgotpassword-button'));
 
-    const forgotPasswordErrorElement = await findByText(forgotPasswordData.errorResponse.response.data.email);
     expect(axiosMock.post).toHaveBeenCalledTimes(1);
     expect(axiosMock.post).toHaveBeenCalledWith(forgotPasswordData.url, forgotPasswordData.options);
   });
@@ -547,7 +534,7 @@ describe('Forgot Password Page', () => {
   it('Forgot Password error: no error.response.data', async () => {
     forgotPasswordData.errorResponse.response.data = null;
     axiosMock.post.mockImplementation(() => Promise.reject(forgotPasswordData.errorResponse));
-    const { getByTestId, findByText } = renderWithRouter(<App />);
+    const { getByTestId } = renderWithRouter(<App />);
     fireEvent.click(getByTestId('login-forgotpassword'));
     expect(getByTestId('forgotpassword-button')).toBeInTheDocument();
 
@@ -565,7 +552,7 @@ describe('Reset Password Page', () => {
   it('Load RESET PASSWORD', () => {
     // const history = createMemoryHistory();
     // const route = '/some-route';
-    const { getByTestId, findByTestId } = renderWithRouter(<App />, {
+    const { getByTestId } = renderWithRouter(<App />, {
       route: '/reset-password',
     });
 
@@ -574,37 +561,34 @@ describe('Reset Password Page', () => {
 
   it('Reset Password is successful', async () => {
     fetch = jest.fn(() => Promise.resolve({ json: () => resetPasswordData.successResponse.data }));
-    const { getByTestId, findByText } = renderWithRouter(<App />, {
+    const { getByTestId } = renderWithRouter(<App />, {
       route: '/reset-password',
     });
 
     fireEvent.click(getByTestId('resetpassword-button'));
 
-    const resetPasswordSuccessElement = await findByText(resetPasswordData.successResponse.data.success);
     expect(fetch).toHaveBeenCalledTimes(1);
   });
 
   it('Reset Password error', async () => {
     fetch = jest.fn(() => Promise.reject(resetPasswordData.errorResponse));
-    const { getByTestId, findByText } = renderWithRouter(<App />, {
+    const { getByTestId } = renderWithRouter(<App />, {
       route: '/reset-password',
     });
 
     fireEvent.click(getByTestId('resetpassword-button'));
 
-    const resetPasswordErrorElement = await findByText("Unable to reach server...");
     expect(fetch).toHaveBeenCalledTimes(1);
   });
 
   it('Reset Password error: validation errors', async () => {
     fetch = jest.fn(() => Promise.resolve({ json: () => resetPasswordData.validationResponse.data }));
-    const { getByTestId, findByText } = renderWithRouter(<App />, {
+    const { getByTestId } = renderWithRouter(<App />, {
       route: '/reset-password',
     });
 
     fireEvent.click(getByTestId('resetpassword-button'));
 
-    const resetPasswordErrorElement = await findByText(resetPasswordData.validationResponse.data.email);
     expect(fetch).toHaveBeenCalledTimes(1);
   });
 });
