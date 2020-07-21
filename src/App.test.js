@@ -432,6 +432,7 @@ describe('Validate Page', () => {
   });
 
   it('Validation is successful', async () => {
+    // eslint-disable-next-line no-native-reassign
     fetch = jest.fn(() => Promise.resolve({ json: () => validateData.successResponse.data }));
     const { getByTestId } = renderWithRouter(<App />, {
       route: '/validate',
@@ -443,6 +444,7 @@ describe('Validate Page', () => {
   });
 
   it('Validate error', async () => {
+    // eslint-disable-next-line no-native-reassign
     fetch = jest.fn(() => Promise.reject(validateData.errorResponse));
     const { getByTestId } = renderWithRouter(<App />, {
       route: '/validate',
@@ -454,6 +456,7 @@ describe('Validate Page', () => {
   });
 
   it('Validate error: validation errors', async () => {
+    // eslint-disable-next-line no-native-reassign
     fetch = jest.fn(() => Promise.resolve({ json: () => validateData.validationResponse.data }));
     const { getByTestId } = renderWithRouter(<App />, {
       route: '/validate',
@@ -560,6 +563,7 @@ describe('Reset Password Page', () => {
   });
 
   it('Reset Password is successful', async () => {
+    // eslint-disable-next-line no-native-reassign
     fetch = jest.fn(() => Promise.resolve({ json: () => resetPasswordData.successResponse.data }));
     const { getByTestId } = renderWithRouter(<App />, {
       route: '/reset-password',
@@ -571,6 +575,7 @@ describe('Reset Password Page', () => {
   });
 
   it('Reset Password error', async () => {
+    // eslint-disable-next-line no-native-reassign
     fetch = jest.fn(() => Promise.reject(resetPasswordData.errorResponse));
     const { getByTestId } = renderWithRouter(<App />, {
       route: '/reset-password',
@@ -582,6 +587,7 @@ describe('Reset Password Page', () => {
   });
 
   it('Reset Password error: validation errors', async () => {
+    // eslint-disable-next-line no-native-reassign
     fetch = jest.fn(() => Promise.resolve({ json: () => resetPasswordData.validationResponse.data }));
     const { getByTestId } = renderWithRouter(<App />, {
       route: '/reset-password',
