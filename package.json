@@ -7,7 +7,7 @@
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.1",
     "@testing-library/react": "^10.4.7",
-    "@testing-library/user-event": "^12.0.11",
+    "@testing-library/user-event": "^12.0.15",
     "axios": "^0.19.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -52,6 +52,6 @@
     "packageManager": "npm"
   },
   "devDependencies": {
-    "codecov": "^3.7.1"
+    "codecov": "^3.7.2"
   }
 }
