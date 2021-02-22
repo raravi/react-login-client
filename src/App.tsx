@@ -11,7 +11,7 @@ import './App.css';
 function App() {
   let [ userAuthenticated, setUserAuthenticated ] = useState(false);
 
-  function onSuccessfulLogin(response) {
+  function onSuccessfulLogin(response: any) {
     console.log("Response: ", response);
     setUserAuthenticated(true);
   }
