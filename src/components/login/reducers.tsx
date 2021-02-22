@@ -4,12 +4,12 @@
  * 2. Register page &
  * 3. Forgot password page.
  */
-const loginReducer = (state, action) => {
+const loginReducer = (state: LoginState, action: Action): LoginState => {
   switch (action.type) {
     case 'email-error':
-      return { ...state, emailError: action.text };
+      return { ...state, emailError: (action as ActionWithText).text };
     case 'password-error':
-      return { ...state, passwordError: action.text };
+      return { ...state, passwordError: (action as ActionWithText).text };
     case 'reset-all':
       return {
         ...state,
@@ -21,18 +21,18 @@ const loginReducer = (state, action) => {
   }
 };
 
-const registerReducer = (state, action) => {
+const registerReducer = (state: RegisterState, action: Action) => {
   switch (action.type) {
     case 'username-error':
-      return { ...state, usernameError: action.text };
+      return { ...state, usernameError: (action as ActionWithText).text };
     case 'email-error':
-      return { ...state, emailError: action.text };
+      return { ...state, emailError: (action as ActionWithText).text };
     case 'password-error':
-      return { ...state, passwordError: action.text };
+      return { ...state, passwordError: (action as ActionWithText).text };
     case 'password2-error':
-      return { ...state, password2Error: action.text };
+      return { ...state, password2Error: (action as ActionWithText).text };
     case 'success':
-      return { ...state, success: action.text };
+      return { ...state, success: (action as ActionWithText).text };
     case 'reset-all':
       return {
         ...state,
@@ -47,12 +47,12 @@ const registerReducer = (state, action) => {
   }
 };
 
-const validateReducer = (state, action) => {
+const validateReducer = (state: ValidateState, action: Action) => {
   switch (action.type) {
     case 'validate-code-error':
-      return { ...state, validateCodeError: action.text };
+      return { ...state, validateCodeError: (action as ActionWithText).text };
     case 'success':
-      return { ...state, success: action.text };
+      return { ...state, success: (action as ActionWithText).text };
     case 'reset-all':
       return {
         ...state,
@@ -64,12 +64,12 @@ const validateReducer = (state, action) => {
   }
 };
 
-const forgotPasswordReducer = (state, action) => {
+const forgotPasswordReducer = (state: ForgotPasswordState, action: Action) => {
   switch (action.type) {
     case 'email-error':
-      return { ...state, emailError: action.text };
+      return { ...state, emailError: (action as ActionWithText).text };
     case 'email-success':
-      return { ...state, emailSuccess: action.text };
+      return { ...state, emailSuccess: (action as ActionWithText).text };
     case 'reset-all':
       return {
         ...state,
@@ -81,18 +81,18 @@ const forgotPasswordReducer = (state, action) => {
   }
 };
 
-const resetPasswordReducer = (state, action) => {
+const resetPasswordReducer = (state: ResetPasswordState, action: Action) => {
   switch (action.type) {
     case 'email-error':
-      return { ...state, emailError: action.text };
+      return { ...state, emailError: (action as ActionWithText).text };
     case 'reset-code-error':
-      return { ...state, resetCodeError: action.text };
+      return { ...state, resetCodeError: (action as ActionWithText).text };
     case 'password-error':
-      return { ...state, passwordError: action.text };
+      return { ...state, passwordError: (action as ActionWithText).text };
     case 'password2-error':
-      return { ...state, password2Error: action.text };
+      return { ...state, password2Error: (action as ActionWithText).text };
     case 'success':
-      return { ...state, success: action.text };
+      return { ...state, success: (action as ActionWithText).text };
     case 'reset-all':
       return {
         ...state,
