@@ -1,11 +1,15 @@
 import React from 'react';
 import { useLoginContext } from './context';
 
+type ValidateProps = {
+  validateCallback: () => void
+};
+
 /**
  * Validate component
  * contains the Validate Email 'page'.
  */
-export const Validate = (props) => {
+export const Validate = (props: ValidateProps) => {
   let { validateState } = useLoginContext();
 
   return (

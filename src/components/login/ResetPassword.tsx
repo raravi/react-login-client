@@ -1,11 +1,15 @@
 import React from 'react';
 import { useLoginContext } from './context';
 
+type ResetPasswordProps = {
+  resetPasswordCallback: () => void
+};
+
 /**
  * ForgotPassword component
  * contains the Forgot Password 'page'.
  */
-export const ResetPassword = (props) => {
+export const ResetPassword = (props: ResetPasswordProps) => {
   let { resetPasswordState } = useLoginContext();
 
   return (
