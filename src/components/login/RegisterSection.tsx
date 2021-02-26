@@ -4,11 +4,15 @@ import {
 } from "react-router-dom";
 import { useLoginContext } from './context';
 
+type RegisterSectionProps = {
+  registerCallback: () => void
+};
+
 /**
  * RegisterSection component
  * contains the Register 'page'.
  */
-export const RegisterSection = (props) => {
+export const RegisterSection = (props: RegisterSectionProps) => {
   let { registerState } = useLoginContext();
 
   return (

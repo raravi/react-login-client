@@ -4,11 +4,15 @@ import {
 } from "react-router-dom";
 import { useLoginContext } from './context';
 
+type LoginSectionProps = {
+  loginCallback: () => void
+};
+
 /**
  * LoginSection component
  * contains the Login 'page'.
  */
-export const LoginSection = (props) => {
+export const LoginSection = (props: LoginSectionProps) => {
   let { loginState } = useLoginContext();
 
   return (

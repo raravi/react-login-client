@@ -7,9 +7,45 @@ import {
   resetPasswordReducer
 } from './reducers';
 
-const LoginContext = createContext();
+type LoginContextProviderProps = {
+  children: React.ReactElement
+};
 
-export const LoginContextProvider = ({ children }) => {
+const LoginContext = createContext({
+  loginState: {
+    emailError: '',
+    passwordError: '',
+  }, 
+  loginDispatch: (action: Action) => {},
+  registerState: {
+    usernameError: '',
+    emailError: '',
+    passwordError: '',
+    password2Error: '',
+    success: '',
+  },
+  registerDispatch: (action: Action) => {},
+  validateState: {
+    validateCodeError: '',
+    success: '',
+  },
+  validateDispatch: (action: Action) => {},
+  forgotPasswordState: {
+    emailError: '',
+    emailSuccess: '',
+  },
+  forgotPasswordDispatch: (action: Action) => {},
+  resetPasswordState: {
+    emailError: '',
+    resetCodeError: '',
+    passwordError: '',
+    password2Error: '',
+    success: '',
+  },
+  resetPasswordDispatch: (action: Action) => {},
+});
+
+export const LoginContextProvider = ({ children }: LoginContextProviderProps) => {
   const [loginState, loginDispatch] = useReducer(loginReducer, {
     emailError: '',
     passwordError: '',

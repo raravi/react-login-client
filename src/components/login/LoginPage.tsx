@@ -11,11 +11,13 @@ import { ForgotPassword } from './ForgotPassword';
 import { ResetPassword } from './ResetPassword';
 import { useLoginContext } from './context';
 
+const getElementByQuerySelector = (query: string) => document.querySelector(query) as HTMLInputElement;
+
 /**
  * The Login component.
  * Contains all Login / Register / ForgotPassword logic associated with this app.
  */
-export const LoginPage = (props) => {
+export const LoginPage = (props: LoginComponentProps) => {
   let apiDetails = props.apiDetails;
   let {
     loginDispatch,
@@ -29,8 +31,8 @@ export const LoginPage = (props) => {
    * and display the server response to the user.
    */
   function loginUser() {
-    var email = document.getElementsByClassName("login__email")[0];
-    var password = document.getElementsByClassName("login__password")[0];
+    const email = getElementByQuerySelector(".login__email");
+    const password = getElementByQuerySelector(".login__password");
 
     loginDispatch({ type: 'reset-all' });
 
@@ -63,10 +65,10 @@ export const LoginPage = (props) => {
    * and display the server response to the user.
    */
   function registerNewUser() {
-    var username = document.getElementsByClassName("register__username")[0];
-    var email = document.getElementsByClassName("register__email")[0];
-    var password = document.getElementsByClassName("register__password")[0];
-    var password2 = document.getElementsByClassName("register__password2")[0];
+    var username = getElementByQuerySelector(".register__username");
+    var email = getElementByQuerySelector(".register__email");
+    var password = getElementByQuerySelector(".register__password");
+    var password2 = getElementByQuerySelector(".register__password2");
 
     registerDispatch({ type: 'reset-all' });
 
@@ -106,7 +108,7 @@ export const LoginPage = (props) => {
    * Send the Validation Code to the backend for processing.
    */
   function validateNewUser() {
-    const validateCode = document.querySelector('.validate__code');
+    const validateCode = getElementByQuerySelector('.validate__code');
 
     validateDispatch({ type: 'reset-all' });
 
@@ -144,7 +146,7 @@ export const LoginPage = (props) => {
    * to the user.
    */
   function forgotPasswordOfUser() {
-    var email = document.getElementsByClassName("forgot-password__email")[0];
+    var email = getElementByQuerySelector(".forgot-password__email");
 
     forgotPasswordDispatch({ type: 'reset-all' });
 
@@ -172,10 +174,10 @@ export const LoginPage = (props) => {
    * along with User details for password reset.
    */
   function resetPasswordOfUser() {
-    const resetEmail = document.querySelector('.reset__email');
-    const resetCode = document.querySelector('.reset__code');
-    const resetPassword = document.querySelector('.reset__password');
-    const resetPassword2 = document.querySelector('.reset__password2');
+    const resetEmail = getElementByQuerySelector('.reset__email');
+    const resetCode = getElementByQuerySelector('.reset__code');
+    const resetPassword = getElementByQuerySelector('.reset__password');
+    const resetPassword2 = getElementByQuerySelector('.reset__password2');
 
     resetPasswordDispatch({ type: 'reset-all' });
 

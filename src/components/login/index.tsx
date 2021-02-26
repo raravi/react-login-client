@@ -18,7 +18,7 @@ import { LoginPage } from './LoginPage';
  *      }
  *    }
  */
-const Login = (props) => {
+const Login = (props: LoginComponentProps) => {
   return (
     <LoginContextProvider>
       <LoginPage
@@ -30,7 +30,7 @@ const Login = (props) => {
 
 // Set default props
 Login.defaultProps = {
-  loginSuccessCallback: (response) => {console.log("Response: ", response)},
+  loginSuccessCallback: (response: any) => {console.log("Response: ", response)},
   apiDetails: {
     url: 'http://localhost:8000',
     endpoints: {
