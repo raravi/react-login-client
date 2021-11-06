@@ -45,8 +45,8 @@
     "collectCoverageFrom": [
       "!src/components/login/dist/**/*",
       "!src/components/login/node_modules/**/*",
-      "src/**/*.{js,jsx}",
-      "!src/index.js"
+      "src/**/*.{js,jsx,tsx}",
+      "!src/index.tsx"
     ]
   },
   "bit": {
